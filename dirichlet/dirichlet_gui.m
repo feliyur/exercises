@@ -22,7 +22,7 @@ function varargout = dirichlet_gui(varargin)
 
 % Edit the above text to modify the response to help dirichlet_gui
 
-% Last Modified by GUIDE v2.5 29-Mar-2017 09:43:42
+% Last Modified by GUIDE v2.5 13-Jun-2017 23:01:47
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -56,7 +56,7 @@ function dirichlet_gui_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 
 % Update handles structure
-guidata(hObject, handles);
+% guidata(hObject, handles);
 
 tUserData.alpha = [handles.slider_a1.Value, ...
                    handles.slider_a2.Value, ...
@@ -68,11 +68,14 @@ alpha = [handles.slider_a1.Value, handles.slider_a2.Value, handles.slider_a3.Val
 [~, hSurf] = plotdir(handles.axes1, alpha); 
 handles.axes1.UserData = hSurf; 
 
+handles.mouseDown = false; 
+
 % h = uicontrol('style','slider','callback',@(src,evt)disp(get(src,'value')));
 addlistener(handles.slider_a1,'Value','PreSet',@(~, ~)updatePlot(handles));
 addlistener(handles.slider_a2,'Value','PreSet',@(~, ~)updatePlot(handles));
 addlistener(handles.slider_a3,'Value','PreSet',@(~, ~)updatePlot(handles));
 
+guidata(hObject, handles); 
 
 
 % --- Outputs from this function are returned to the command line.
@@ -129,3 +132,57 @@ f = plotdir([], alpha);
 handles.axes1.UserData.ZData = f; 
 
 
+% --- Executes on selection change in distmenu.
+function distmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to distmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns distmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from distmenu
+
+
+% --- Executes during object creation, after setting all properties.
+function distmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to distmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on mouse press over figure background, over a disabled or
+% --- inactive control, or over an axes background.
+function fig_dirichlet_WindowButtonUpFcn(hObject, eventdata, handles)
+% hObject    handle to fig_dirichlet (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+data = guidata(hObject); 
+data.mouseDown = false; 
+guidata(hObject, data); 
+
+
+% --- Executes on mouse press over figure background, over a disabled or
+% --- inactive control, or over an axes background.
+function fig_dirichlet_WindowButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to fig_dirichlet (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+data = guidata(hObject); 
+data.mouseDown = true; 
+guidata(hObject, data); 
+
+
+% --- Executes on mouse motion over figure - except title and menu.
+function fig_dirichlet_WindowButtonMotionFcn(hObject, eventdata, handles)
+% hObject    handle to fig_dirichlet (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+data = guidata(hObject); 
+if testhit(hObject, handles.dirparams_axes)    
+    x = handles.dirparams_axes.CurrentPoint(1, 1:2); 
+end
