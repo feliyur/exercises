@@ -1,0 +1,63 @@
+# --------------------------------------------------------
+# Written by Yuri Feldman <yurif@cs.technion.ac.il>
+# 15 Jul 2018
+#
+# This file exemplifies usage of parser for hw5
+# 
+# COMMENTS: 
+#	* line starting with # followed by whitespace is ignored, echoed in output 
+#	* any parameters following required ones are ignored
+#	* blank lines are ignored
+
+# Create game with given number of players. Game is unique per test, 
+# however can be replaced later
+Game 50
+
+# In case mtm::exception is thrown, prints message with exception 
+# name. E.g. this prints out that mtm::InvalidParam was thrown 
+# (Game from previous command should not have been replaced because
+#  constructor failed)
+Game 0
+
+# Interface functions invoked by name followed by parameters
+# addPlayer <playerName> <weaponName> <weaponTarget> <weaponStrength>
+addPlayer someplayer1 club LIFE 5
+
+# Weapon target should be one of LIFE, LEVEL, STRENGTH
+# Wizard weapon cannot target LIFE, Warrior cannot target LEVEL (see exercise)
+
+# addWarrior <playerName> <weaponName> <weaponTarget> <weaponStrength> <isRider>
+addWarrior someplayer2 club LIFE 5 true
+
+# addWizard <playerName> <weaponName> <weaponTarget> <weaponStrength> <range>
+addWizard someplayer3 club LIFE 5 5 # will report IllegalWeapon, fail to add
+
+# addTroll <playerName> <weaponName> <weaponTarget> <weaponStrength> <maxLife>
+addTroll someplayer4 club LIFE 4 5
+
+# nextLevel <playerName>
+nextLevel someplayer1
+
+# makeStep <playerName>
+makeStep someplayer2
+
+# addLife <playerName>
+addLife someplayer3
+
+# addStrength <playerName> <strengthToAdd>
+addStrength someplayer4 3
+
+# print game
+print 
+
+# removeAllPlayersWithWeakWeapon <minWeaponStrength>
+removeAllPlayersWithWeakWeapon 15 # should remove only someplayer4
+
+# removeNameSmallerThan <name>
+removeNameSmallerThan someplayer2 # Invokes removePlayersIf, removing someplayer1. 
+
+# fight <name1> <name2>
+fight someplayer2 someplayer3 # fails because someplayer3 does not exist
+
+print
+# This covers all interface functions. 

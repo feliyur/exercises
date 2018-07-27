@@ -13,7 +13,7 @@ subplot(3, 4, [1:3 5:7 9:11]);
 hold on; 
 
 mean_entropy  = zeros(1, 3); 
-n = 2000; 
+n = 20000; 
 
 theta = [2, 10, 50]; 
 
