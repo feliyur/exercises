@@ -1,4 +1,5 @@
-# From https://medium.com/@dexterhuang/tensorboard-for-pytorch-201a228533c5
+# From https://becominghuman.ai/logging-in-tensorboard-with-pytorch-or-any-other-library-c549163dee9e
+# Related https://medium.com/@dexterhuang/tensorboard-for-pytorch-201a228533c5
 
 import io
 import numpy as np
